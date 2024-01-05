@@ -32,4 +32,18 @@ public class Hotel {
             }
         }
     }
+
+    public boolean hasAvailableRooms() {
+        return !availableRooms.isEmpty();
+    }
+
+    /**
+     * A method for requesting for room assignment, which reply with the assigned room number upon success.
+     * Returning a Room object instead of the room number.
+     */
+    public Room assignNearestAvailableRoom(Customer customer) {
+        Room nearestRoom = availableRooms.poll();
+        nearestRoom.setOccupied(customer);
+        return nearestRoom;
+    }
 }
