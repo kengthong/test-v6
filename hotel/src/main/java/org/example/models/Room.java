@@ -26,6 +26,10 @@ public class Room implements Comparable<Room> {
         this.currCustomer = customer;
     }
 
+    public Customer getCustomer() {
+        return this.currCustomer;
+    }
+
     public void checkout() {
         this.status = Status.VACANT;
         this.currCustomer = null;

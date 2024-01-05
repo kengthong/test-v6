@@ -7,6 +7,7 @@ public enum ErrorMessage {
     Room_InvalidRoomNumber("Invalid room number: ''{0}''."),
     Room_CannotBeCleaned("Room ''{0}'' is not currently vacant and cannot be cleaned at the moment."),
     Room_NotUnderRepair("Room ''{0}'' is not currently under repair."),
+    Room_NotOccupied("Room ''{0}'' is not currently occupied."),
     Customer_NotFound("Could not find customer with name: ''{0}''."),
     Customer_NotCheckedIn("Customer of name ''{0}'' is currently not checked in.");
     

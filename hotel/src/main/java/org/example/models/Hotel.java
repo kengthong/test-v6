@@ -60,9 +60,12 @@ public class Hotel {
      * @param roomNum
      */
     public void checkoutByRoomNumber(String roomNum) {
-        // TODO: Add validation and exception
-        Room rm = rooms.get(roomNum);
+        Room rm = getAndValidateRoom(roomNum);
+        // ensure room can be checked out
+        ErrorMessage.ensure(rm.getStatus() == Room.Status.OCCUPIED, ErrorMessage.Room_NotOccupied, roomNum);
+        Customer customer = rm.getCustomer();
         rm.checkout();
+        customerRmMap.remove(customer);
     }
 
     /**
