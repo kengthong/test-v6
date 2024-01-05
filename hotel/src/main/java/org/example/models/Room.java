@@ -31,6 +31,10 @@ public class Room implements Comparable<Room> {
         this.currCustomer = null;
     }
 
+    public void cleanCompleted() {
+        this.status = Status.AVAILABLE;
+    }
+
     @Override
     public int compareTo(Room other) {
         // Comparing based on priority (ascending order)

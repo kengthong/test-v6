@@ -68,4 +68,14 @@ public class Hotel {
         Room rm = customerRmMap.get(customer);
         rm.checkout();
     }
+
+    /**
+     * Requirement 3: A method to mark room cleaned
+     * @param roomNum
+     */
+    public void cleanRoomCompleted(String roomNum) {
+        // TODO: Add validation - room not vacant or in repair / room dont exist
+        Room rm = rooms.get(roomNum);
+        rm.cleanCompleted();
+    }
 }
