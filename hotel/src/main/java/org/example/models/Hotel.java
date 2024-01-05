@@ -121,4 +121,16 @@ public class Hotel {
         availRooms.sort(availableRooms.comparator());
         return availRooms;
     }
+
+    /**
+     * OTHER METHODS THAT CAN COME IN USEFUL ARE INCLUDED BELOW
+     */
+    
+    public void registerCustomer(String name) {
+        if (customers.containsKey(name)) {
+            return;
+        }
+        Customer customer = new Customer(name);
+        customers.put(name, customer);
+    }
 }
