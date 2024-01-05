@@ -1,7 +1,13 @@
 package org.example.models;
 
+import org.example.exception.ErrorMessage;
+
 import java.util.*;
 
+/**
+ * Assumptions:
+ * 1. Assume no customer have the same name (else will need to identify by other properties which is not implemented)
+ */
 public class Hotel {
     private final String[][] levels = {
             {"1A", "1B", "1C", "1D", "1E"},
@@ -10,6 +16,7 @@ public class Hotel {
             {"4A", "4B", "4C", "4D", "4E"},
     };
     private final HashMap<String, Room> rooms = new HashMap<>();
+    private final HashMap<String, Customer> customers = new HashMap<>();
     private final HashMap<Customer, Room> customerRmMap = new HashMap<>();
     private final PriorityQueue<Room> availableRooms = new PriorityQueue<>();
 
@@ -62,10 +69,17 @@ public class Hotel {
      * Requirement 2: A method to check out of a room.
      * @param customer
      */
-    public void checkoutByCustomer(Customer customer) {
-        // TODO: Add validation and exception
+    public void checkoutByCustomerName(String name) {
+        Customer customer = customers.get(name);
+        
+        // Ensure customer has been registered
+        ErrorMessage.ensure(customer != null, ErrorMessage.Customer_NotFound, name);
+        // Ensure customer exists and is currently checkedin
+        ErrorMessage.ensure(customerRmMap.containsKey(customer), ErrorMessage.Customer_NotCheckedIn, name);
+
         Room rm = customerRmMap.get(customer);
         rm.checkout();
+        customerRmMap.remove(customer);
     }
 
     /**
@@ -73,8 +87,13 @@ public class Hotel {
      * @param roomNum
      */
     public void cleanRoomCompleted(String roomNum) {
-        // TODO: Add validation - room not vacant or in repair / room dont exist
         Room rm = rooms.get(roomNum);
+        
+        // Ensure room exists
+        ErrorMessage.ensure(rm != null, ErrorMessage.Room_InvalidRoomNumber, roomNum);
+        // Ensure room is currently vacant
+        ErrorMessage.ensure(rm.getStatus() == Room.Status.VACANT, ErrorMessage.Room_CannotBeCleaned, roomNum);
+        
         rm.cleanCompleted();
     }
 
@@ -83,8 +102,13 @@ public class Hotel {
      * @param roomNum
      */
     public void repairRoomCompleted(String roomNum) {
-        // TODO: Add validation - room.status not repaired / room dont exist
         Room rm = rooms.get(roomNum);
+
+        // Ensure room exists
+        ErrorMessage.ensure(rm != null, ErrorMessage.Room_InvalidRoomNumber, roomNum);
+        // Ensure room is currently repairing
+        ErrorMessage.ensure(rm.getStatus() == Room.Status.REPAIR, ErrorMessage.Room_NotUnderRepair, roomNum);
+
         rm.repairCompleted();
     }
 

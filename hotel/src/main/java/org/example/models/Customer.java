@@ -6,7 +6,7 @@ public class Customer {
         this.name = name;
     }
 
-    private String getName() {
+    public String getName() {
         return name;
     }
 }
