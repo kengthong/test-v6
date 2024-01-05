@@ -78,4 +78,14 @@ public class Hotel {
         Room rm = rooms.get(roomNum);
         rm.cleanCompleted();
     }
+
+    /**
+     * Requirement 4: A method to mark room as room completed.
+     * @param roomNum
+     */
+    public void repairRoomCompleted(String roomNum) {
+        // TODO: Add validation - room.status not repaired / room dont exist
+        Room rm = rooms.get(roomNum);
+        rm.repairCompleted();
+    }
 }

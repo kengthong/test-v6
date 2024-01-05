@@ -35,6 +35,10 @@ public class Room implements Comparable<Room> {
         this.status = Status.AVAILABLE;
     }
 
+    public void repairCompleted() {
+        this.status = Status.VACANT;
+    }
+
     @Override
     public int compareTo(Room other) {
         // Comparing based on priority (ascending order)
