@@ -1,7 +1,6 @@
 package org.example.models;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.PriorityQueue;
 
 public class Hotel {
@@ -11,8 +10,8 @@ public class Hotel {
             {"3A", "3B", "3C", "3D", "3E"},
             {"4A", "4B", "4C", "4D", "4E"},
     };
-    private List<Room> orderedRooms = new ArrayList<>();
-    private PriorityQueue<Room> availableRooms = new PriorityQueue<>();
+    private final HashMap<String, Room> rooms = new HashMap<>();
+    private final PriorityQueue<Room> availableRooms = new PriorityQueue<>();
 
     public Hotel() {
         int idx = 0;
@@ -20,14 +19,14 @@ public class Hotel {
             if (i % 2 == 1) { // even floors are from the back
                 for (int j = levels[i].length-1; j>=0; j--) {
                     Room rm = new Room(levels[i][j], idx++);
-                    orderedRooms.add(rm);
+                    rooms.put(levels[i][j], rm);
                     availableRooms.add(rm);
                 }
             } else {
                 // odd floors
                 for (int j = 0; j<levels[i].length; j++) {
                     Room rm = new Room(levels[i][j], idx++);
-                    orderedRooms.add(rm);
+                    rooms.put(levels[i][j], rm);
                     availableRooms.add(rm);
                 }
             }
