@@ -11,6 +11,7 @@ public class Hotel {
             {"4A", "4B", "4C", "4D", "4E"},
     };
     private final HashMap<String, Room> rooms = new HashMap<>();
+    private final HashMap<Customer, Room> customerRmMap = new HashMap<>();
     private final PriorityQueue<Room> availableRooms = new PriorityQueue<>();
 
     public Hotel() {
@@ -38,12 +39,33 @@ public class Hotel {
     }
 
     /**
-     * A method for requesting for room assignment, which reply with the assigned room number upon success.
+     * Requirement 1: A method for requesting for room assignment, which reply with the assigned room number upon success.
      * Returning a Room object instead of the room number.
      */
     public Room assignNearestAvailableRoom(Customer customer) {
         Room nearestRoom = availableRooms.poll();
         nearestRoom.setOccupied(customer);
+        customerRmMap.put(customer, nearestRoom);
         return nearestRoom;
+    }
+
+    /**
+     * Requirement 2: A method to check out of a room.
+     * @param roomNum
+     */
+    public void checkoutByRoomNumber(String roomNum) {
+        // TODO: Add validation and exception
+        Room rm = rooms.get(roomNum);
+        rm.checkout();
+    }
+
+    /**
+     * Requirement 2: A method to check out of a room.
+     * @param customer
+     */
+    public void checkoutByCustomer(Customer customer) {
+        // TODO: Add validation and exception
+        Room rm = customerRmMap.get(customer);
+        rm.checkout();
     }
 }
