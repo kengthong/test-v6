@@ -5,14 +5,18 @@ public class Room implements Comparable<Room> {
         AVAILABLE, OCCUPIED, VACANT, REPAIR
     }
 
-    private String name;
+    private String roomNumber;
     private Status status;
     private int index;
     private Customer currCustomer;
 
-    public Room(String name, int idx) {
-        this.name = name;
+    public Room(String roomNumber, int idx) {
+        this.roomNumber = roomNumber;
         this.index = idx;
+    }
+
+    public String getRoomNumber() {
+        return this.roomNumber;
     }
 
     public Status getStatus() {

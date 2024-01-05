@@ -1,6 +1,7 @@
 package org.example.models;
 
 import org.example.exception.ErrorMessage;
+import org.example.exception.InvalidRequestException;
 
 import java.util.*;
 
@@ -55,20 +56,21 @@ public class Hotel {
      * Requirement 2: A method to check out of a room.
      * @param roomNum The provided room number The provided room number
      */
-    public void checkoutByRoomNumber(String roomNum) {
+    public void checkoutByRoomNumber(String roomNum) throws InvalidRequestException {
         Room rm = getAndValidateRoom(roomNum);
         // ensure room can be checked out
         ErrorMessage.ensure(rm.getStatus() == Room.Status.OCCUPIED, ErrorMessage.Room_NotOccupied, roomNum);
         Customer customer = rm.getCustomer();
         rm.checkout();
         customerRmMap.remove(customer);
+        availableRooms.add(rm);
     }
 
     /**
      * Requirement 2: A method to check out of a room.
      * @param name The name of the customer
      */
-    public void checkoutByCustomerName(String name) {
+    public void checkoutByCustomerName(String name) throws InvalidRequestException {
         Customer customer = customers.get(name);
         
         // Ensure customer has been registered
@@ -85,7 +87,7 @@ public class Hotel {
      * Requirement 3: A method to mark room cleaned
      * @param roomNum The provided room number
      */
-    public void cleanRoomCompleted(String roomNum) {
+    public void cleanRoomCompleted(String roomNum) throws InvalidRequestException {
         Room rm = getAndValidateRoom(roomNum);
         // Ensure room is currently vacant
         ErrorMessage.ensure(rm.getStatus() == Room.Status.VACANT, ErrorMessage.Room_CannotBeCleaned, roomNum);
@@ -97,7 +99,7 @@ public class Hotel {
      * Requirement 4: A method to mark room as room completed.
      * @param roomNum The provided room number
      */
-    public void repairRoomCompleted(String roomNum) {
+    public void repairRoomCompleted(String roomNum) throws InvalidRequestException {
         Room rm = getAndValidateRoom(roomNum);
         // Ensure room is currently repairing
         ErrorMessage.ensure(rm.getStatus() == Room.Status.REPAIR, ErrorMessage.Room_NotUnderRepair, roomNum);
@@ -119,12 +121,9 @@ public class Hotel {
      * OTHER METHODS THAT CAN COME IN USEFUL ARE INCLUDED BELOW
      */
     
-    public void registerCustomer(String name) {
-        if (customers.containsKey(name)) {
-            return;
-        }
-        Customer customer = new Customer(name);
-        customers.put(name, customer);
+    public Customer registerCustomer(String name) {
+        customers.putIfAbsent(name, new Customer(name));
+        return customers.get(name);
     }
 
     private Room getAndValidateRoom(String roomNum) {
