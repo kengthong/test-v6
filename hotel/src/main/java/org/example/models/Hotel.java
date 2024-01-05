@@ -1,7 +1,6 @@
 package org.example.models;
 
-import java.util.HashMap;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class Hotel {
     private final String[][] levels = {
@@ -87,5 +86,15 @@ public class Hotel {
         // TODO: Add validation - room.status not repaired / room dont exist
         Room rm = rooms.get(roomNum);
         rm.repairCompleted();
+    }
+
+    /**
+     * Requirement 5: A method to get available rooms.
+     * @return List of available rooms
+     */
+    public List<Room> getAvailableRooms() {
+        List<Room> availRooms = new ArrayList<>(availableRooms);
+        availRooms.sort(availableRooms.comparator());
+        return availRooms;
     }
 }
