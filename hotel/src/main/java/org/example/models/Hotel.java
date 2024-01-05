@@ -9,20 +9,20 @@ import java.util.*;
  * 1. Assume no customer have the same name (else will need to identify by other properties which is not implemented)
  */
 public class Hotel {
-    private final String[][] levels = {
-            {"1A", "1B", "1C", "1D", "1E"},
-            {"2A", "2B", "2C", "2D", "2E"},
-            {"3A", "3B", "3C", "3D", "3E"},
-            {"4A", "4B", "4C", "4D", "4E"},
-    };
-    private final HashMap<String, Room> rooms = new HashMap<>();
-    private final HashMap<String, Customer> customers = new HashMap<>();
+    private final HashMap<String, Room> rooms = new HashMap<>(); // simulate room db table with primary key name
+    private final HashMap<String, Customer> customers = new HashMap<>(); // simulate customer db table with primary key name
     private final HashMap<Customer, Room> customerRmMap = new HashMap<>();
     private final PriorityQueue<Room> availableRooms = new PriorityQueue<>();
 
     public Hotel() {
         int idx = 0;
-        for (int i = 0; i<levels.length; i++) {
+        String[][] levels = {
+                {"1A", "1B", "1C", "1D", "1E"},
+                {"2A", "2B", "2C", "2D", "2E"},
+                {"3A", "3B", "3C", "3D", "3E"},
+                {"4A", "4B", "4C", "4D", "4E"},
+        };
+        for (int i = 0; i< levels.length; i++) {
             if (i % 2 == 1) { // even floors are from the back
                 for (int j = levels[i].length-1; j>=0; j--) {
                     Room rm = new Room(levels[i][j], idx++);
@@ -31,17 +31,13 @@ public class Hotel {
                 }
             } else {
                 // odd floors
-                for (int j = 0; j<levels[i].length; j++) {
+                for (int j = 0; j< levels[i].length; j++) {
                     Room rm = new Room(levels[i][j], idx++);
                     rooms.put(levels[i][j], rm);
                     availableRooms.add(rm);
                 }
             }
         }
-    }
-
-    public boolean hasAvailableRooms() {
-        return !availableRooms.isEmpty();
     }
 
     /**
@@ -57,7 +53,7 @@ public class Hotel {
 
     /**
      * Requirement 2: A method to check out of a room.
-     * @param roomNum
+     * @param roomNum The provided room number The provided room number
      */
     public void checkoutByRoomNumber(String roomNum) {
         Room rm = getAndValidateRoom(roomNum);
@@ -70,14 +66,14 @@ public class Hotel {
 
     /**
      * Requirement 2: A method to check out of a room.
-     * @param customer
+     * @param name The name of the customer
      */
     public void checkoutByCustomerName(String name) {
         Customer customer = customers.get(name);
         
         // Ensure customer has been registered
         ErrorMessage.ensure(customer != null, ErrorMessage.Customer_NotFound, name);
-        // Ensure customer exists and is currently checkedin
+        // Ensure customer exists and is currently checkedIn
         ErrorMessage.ensure(customerRmMap.containsKey(customer), ErrorMessage.Customer_NotCheckedIn, name);
 
         Room rm = customerRmMap.get(customer);
@@ -87,13 +83,10 @@ public class Hotel {
 
     /**
      * Requirement 3: A method to mark room cleaned
-     * @param roomNum
+     * @param roomNum The provided room number
      */
     public void cleanRoomCompleted(String roomNum) {
-        Room rm = rooms.get(roomNum);
-        
-        // Ensure room exists
-        ErrorMessage.ensure(rm != null, ErrorMessage.Room_InvalidRoomNumber, roomNum);
+        Room rm = getAndValidateRoom(roomNum);
         // Ensure room is currently vacant
         ErrorMessage.ensure(rm.getStatus() == Room.Status.VACANT, ErrorMessage.Room_CannotBeCleaned, roomNum);
         
@@ -102,13 +95,10 @@ public class Hotel {
 
     /**
      * Requirement 4: A method to mark room as room completed.
-     * @param roomNum
+     * @param roomNum The provided room number
      */
     public void repairRoomCompleted(String roomNum) {
-        Room rm = rooms.get(roomNum);
-
-        // Ensure room exists
-        ErrorMessage.ensure(rm != null, ErrorMessage.Room_InvalidRoomNumber, roomNum);
+        Room rm = getAndValidateRoom(roomNum);
         // Ensure room is currently repairing
         ErrorMessage.ensure(rm.getStatus() == Room.Status.REPAIR, ErrorMessage.Room_NotUnderRepair, roomNum);
 
@@ -135,5 +125,11 @@ public class Hotel {
         }
         Customer customer = new Customer(name);
         customers.put(name, customer);
+    }
+
+    private Room getAndValidateRoom(String roomNum) {
+        // Ensure room exists
+        ErrorMessage.ensure(rooms.containsKey(roomNum), ErrorMessage.Room_InvalidRoomNumber, roomNum);
+        return rooms.get(roomNum);
     }
 }
