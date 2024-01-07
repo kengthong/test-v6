@@ -6,7 +6,7 @@ public class Room implements Comparable<Room> {
     }
 
     private String roomNumber;
-    private Status status;
+    private Status status = Status.AVAILABLE;
     private int index;
     private Customer currCustomer;
 
@@ -23,7 +23,9 @@ public class Room implements Comparable<Room> {
         return this.status;
     }
 
-    public int getIndex() { return this.index; }
+    public int getIndex() {
+        return this.index;
+    }
 
     public void setOccupied(Customer customer) {
         this.status = Status.OCCUPIED;
@@ -41,6 +43,10 @@ public class Room implements Comparable<Room> {
 
     public void cleanCompleted() {
         this.status = Status.AVAILABLE;
+    }
+
+    public void repairStart() {
+        this.status = Status.REPAIR;
     }
 
     public void repairCompleted() {

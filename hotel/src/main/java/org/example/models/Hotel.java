@@ -84,6 +84,7 @@ public class Hotel {
         Room rm = customerRmMap.get(customer);
         rm.checkout();
         customerRmMap.remove(customer);
+        availableRooms.add(rm);
     }
 
     /**
@@ -127,6 +128,14 @@ public class Hotel {
     public Customer registerCustomer(String name) {
         customers.putIfAbsent(name, new Customer(name));
         return customers.get(name);
+    }
+
+    public void repairRoom(String roomNum) throws InvalidRequestException {
+        Room rm = getAndValidateRoom(roomNum);
+        // Ensure room is currently vacant
+        ErrorMessage.ensure(rm.getStatus() == Room.Status.VACANT, ErrorMessage.Room_CannotBeRepaired, roomNum);
+
+        rm.repairStart();
     }
 
     private Room getAndValidateRoom(String roomNum) {
