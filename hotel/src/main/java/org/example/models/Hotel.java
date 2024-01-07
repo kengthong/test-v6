@@ -45,7 +45,10 @@ public class Hotel {
      * Requirement 1: A method for requesting for room assignment, which reply with the assigned room number upon success.
      * Returning a Room object instead of the room number.
      */
-    public Room assignNearestAvailableRoom(Customer customer) {
+    public Room assignNearestAvailableRoom(Customer customer) throws InvalidRequestException {
+        ErrorMessage.ensure(customers.containsKey(customer.getName()), ErrorMessage.Customer_NotFound, customer.getName());
+        ErrorMessage.ensure(!customerRmMap.containsKey(customer), ErrorMessage.Customer_AlreadyCheckedIn, customer.getName());
+
         Room nearestRoom = availableRooms.poll();
         nearestRoom.setOccupied(customer);
         customerRmMap.put(customer, nearestRoom);
