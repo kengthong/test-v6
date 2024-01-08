@@ -72,6 +72,7 @@ class HotelTest {
         hotel.checkoutByRoomNumber(assignedRoom.getRoomNumber());
 
         assertEquals(Room.Status.VACANT, assignedRoom.getStatus());
+        assert(!hotel.getAvailableRooms().contains(assignedRoom));
     }
 
     @Test
@@ -91,8 +92,8 @@ class HotelTest {
         Room assignedRoom = hotel.assignNearestAvailableRoom(customer);
 
         hotel.checkoutByCustomerName("test");
-
         assertEquals(Room.Status.VACANT, assignedRoom.getStatus());
+        assert(!hotel.getAvailableRooms().contains(assignedRoom));
     }
 
     @Test
@@ -123,6 +124,8 @@ class HotelTest {
         Room assignedRoom = hotel.assignNearestAvailableRoom(customer);
 
         hotel.checkoutByRoomNumber(assignedRoom.getRoomNumber());
+        assert(!hotel.getAvailableRooms().contains(assignedRoom));
+
         hotel.cleanRoomCompleted(assignedRoom.getRoomNumber());
 
         assertEquals(Room.Status.AVAILABLE, assignedRoom.getStatus());
@@ -145,6 +148,8 @@ class HotelTest {
         Room assignedRoom = hotel.assignNearestAvailableRoom(customer);
 
         hotel.checkoutByRoomNumber(assignedRoom.getRoomNumber());
+        assert(!hotel.getAvailableRooms().contains(assignedRoom));
+
         hotel.repairRoom(assignedRoom.getRoomNumber());
         hotel.repairRoomCompleted(assignedRoom.getRoomNumber());
 
@@ -195,6 +200,8 @@ class HotelTest {
         Customer customer = hotel.registerCustomer("test");
         Room assignedRoom = hotel.assignNearestAvailableRoom(customer);
         hotel.checkoutByRoomNumber(assignedRoom.getRoomNumber());
+        assert(!hotel.getAvailableRooms().contains(assignedRoom));
+
         hotel.repairRoom(assignedRoom.getRoomNumber());
 
         assertEquals(Room.Status.REPAIR, assignedRoom.getStatus());

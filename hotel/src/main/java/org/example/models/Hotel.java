@@ -64,7 +64,6 @@ public class Hotel {
         Customer customer = rm.getCustomer();
         rm.checkout();
         customerRmMap.remove(customer);
-        availableRooms.add(rm);
     }
 
     /**
@@ -82,7 +81,6 @@ public class Hotel {
         Room rm = customerRmMap.get(customer);
         rm.checkout();
         customerRmMap.remove(customer);
-        availableRooms.add(rm);
     }
 
     /**
@@ -95,6 +93,7 @@ public class Hotel {
         ErrorMessage.ensure(rm.getStatus() == Room.Status.VACANT, ErrorMessage.Room_CannotBeCleaned, roomNum);
         
         rm.cleanCompleted();
+        availableRooms.add(rm);
     }
 
     /**

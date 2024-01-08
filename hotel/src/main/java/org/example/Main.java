@@ -27,7 +27,8 @@ public class Main {
             System.out.println("4. Mark Room as Cleaned");
             System.out.println("5. Mark Room as Repaired");
             System.out.println("6. Get Available Rooms");
-            System.out.println("7. Exit");
+            System.out.println("7. Find Nearest Available Room");
+            System.out.println("8. Exit");
             System.out.print("Enter your choice: ");
 
             try {
