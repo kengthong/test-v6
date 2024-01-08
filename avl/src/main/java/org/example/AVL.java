@@ -53,7 +53,7 @@ public class AVL<T extends Comparable<T>> {
      * @param value
      * @return
      */
-    private boolean insert(T value, Node node) {
+    private Node insert(T value, Node node) {
 
     }
 
@@ -75,6 +75,22 @@ public class AVL<T extends Comparable<T>> {
     public boolean remove(T value, Node node) {
 
     }
+
+    /**
+     * Rebalance the tree starting from node
+     * @param node
+     * @return
+     */
+    private Node balance(Node node) {}
+
+    /**
+     * Update the node's height and balance factor
+     * @param node
+     */
+    private void update(Node node) {
+    }
+
+    // Left rotation, right rotation, leftleft, leftRight, rightRight, rightLeft
 
     public class Node {
         public int bf;
