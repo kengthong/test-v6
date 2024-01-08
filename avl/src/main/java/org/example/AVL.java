@@ -25,6 +25,18 @@ public class AVL<T extends Comparable<T>> {
      * @return
      */
     private boolean contains(T value, Node node) {
+        if (node == null) return false;
+
+        int cmp = value.compareTo(node.value);
+        if (cmp < 0) { // value might exist in the left
+            return contains(value, node.left);
+        }
+
+        if (cmp > 0) { // value might exist on the right
+            return contains(value, node.right);
+        }
+
+        return true;
     }
 
     /**
