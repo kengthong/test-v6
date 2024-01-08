@@ -15,7 +15,10 @@ class HotelTest {
 
     @BeforeEach
     void setUp() {
-        hotel = new Hotel();
+        String[][] levels = {
+                {"1A", "1B", "1C", "1D", "1E"}
+        };
+        hotel = new Hotel(levels);
     }
 
     @Test

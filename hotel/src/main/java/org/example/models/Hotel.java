@@ -15,14 +15,8 @@ public class Hotel {
     private final HashMap<Customer, Room> customerRmMap = new HashMap<>();
     private final PriorityQueue<Room> availableRooms = new PriorityQueue<>();
 
-    public Hotel() {
+    public Hotel(String[][] levels) {
         int idx = 0;
-        String[][] levels = {
-                {"1A", "1B", "1C", "1D", "1E"},
-                {"2A", "2B", "2C", "2D", "2E"},
-                {"3A", "3B", "3C", "3D", "3E"},
-                {"4A", "4B", "4C", "4D", "4E"},
-        };
         for (int i = 0; i< levels.length; i++) {
             if (i % 2 == 1) { // even floors are from the back
                 for (int j = levels[i].length-1; j>=0; j--) {
