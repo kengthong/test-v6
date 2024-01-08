@@ -43,7 +43,11 @@ public class Hotel {
         ErrorMessage.ensure(customers.containsKey(customer.getName()), ErrorMessage.Customer_NotFound, customer.getName());
         ErrorMessage.ensure(!customerRmMap.containsKey(customer), ErrorMessage.Customer_AlreadyCheckedIn, customer.getName());
 
-        Room nearestRoom = availableRooms.poll();
+        Room nearestRoom = findNearestAvailableRoom();
+        if (nearestRoom == null) {
+            return null;
+        }
+        availableRooms.poll();
         nearestRoom.setOccupied(customer);
         customerRmMap.put(customer, nearestRoom);
         return nearestRoom;
@@ -130,6 +134,10 @@ public class Hotel {
         ErrorMessage.ensure(rm.getStatus() == Room.Status.VACANT, ErrorMessage.Room_CannotBeRepaired, roomNum);
 
         rm.repairStart();
+    }
+
+    public Room findNearestAvailableRoom() {
+        return availableRooms.peek();
     }
 
     private Room getAndValidateRoom(String roomNum) {

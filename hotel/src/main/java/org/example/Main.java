@@ -40,7 +40,11 @@ public class Main {
                         String customerName = scanner.nextLine();
                         Customer customer = hotel.registerCustomer(customerName);
                         Room assignedRoom = hotel.assignNearestAvailableRoom(customer);
-                        System.out.println("Assigned room: " + assignedRoom.getRoomNumber());
+                        if (assignedRoom != null) {
+                            System.out.println("Assigned room: " + assignedRoom.getRoomNumber());
+                        } else {
+                            System.out.println("There are no rooms currently available.");
+                        }
                         break;
                     case 2:
                         System.out.print("Enter room number for checkout: ");
@@ -73,6 +77,15 @@ public class Main {
                         System.out.println("[" + rooms + "]");
                         break;
                     case 7:
+                        System.out.println("Find nearest available room:");
+                        Room room = hotel.findNearestAvailableRoom();
+                        if (room != null) {
+                            System.out.println("The nearest available room is room " + room.getRoomNumber() + ".");
+                        } else {
+                            System.out.println("There are currently no rooms available.");
+                        }
+                        break;
+                    case 8:
                         System.out.println("Exiting...");
                         System.exit(0);
                     default:

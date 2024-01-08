@@ -56,6 +56,15 @@ class HotelTest {
     }
 
     @Test
+    void assignNearestAvailableRoom_NoRoomsAvailable() throws InvalidRequestException {
+        String[][] levels = new String[1][0];
+        hotel = new Hotel(levels);
+        Customer customer = hotel.registerCustomer("test");
+        Room room = hotel.assignNearestAvailableRoom(customer);
+        assertNull(room);
+    }
+
+    @Test
     void checkoutByRoomNumber_Success() throws InvalidRequestException {
         Customer customer = hotel.registerCustomer("test");
         Room assignedRoom = hotel.assignNearestAvailableRoom(customer);
@@ -204,4 +213,20 @@ class HotelTest {
         }
     }
 
+    @Test
+    void findNearestAvailableRoom_Success() {
+        Customer customer = hotel.registerCustomer("test");
+        hotel.assignNearestAvailableRoom(customer);
+        Room nextNearestRoom = hotel.findNearestAvailableRoom();
+        assert(nextNearestRoom.getRoomNumber().equals(hotel.getAvailableRooms().get(0).getRoomNumber()));
+    }
+
+    @Test
+    void findNearestAvailableRoom_NoRoomsAvailable() {
+        String[][] levels = new String[1][0];
+        hotel = new Hotel(levels);
+        Customer customer = hotel.registerCustomer("test");
+        Room emptyRoom = hotel.assignNearestAvailableRoom(customer);
+        assertNull(emptyRoom);
+    }
 }
