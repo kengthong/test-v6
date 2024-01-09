@@ -52,6 +52,23 @@ public class AVL<T extends Comparable<T>> {
         return true;
     }
 
+    public void printInOrder(Node node) {
+        StringBuilder sb = new StringBuilder();
+        formInOrderString(node, sb);
+        String s = sb.toString();
+        s = sb.substring(0, Math.max(s.length() -1, 0)); // remove last comma
+        System.out.printf("[%s]", s);
+    }
+    private void formInOrderString(Node node, StringBuilder sb) {
+        if (node == null) {
+            return;
+        }
+
+        formInOrderString(node.left, sb);
+        sb.append(String.format("%s,", node.value));
+        formInOrderString(node.right, sb);
+    }
+
     /**
      * Recursively calls the private insert method to insert the node into the left or right of the node, depending on compare value
      * @param value
