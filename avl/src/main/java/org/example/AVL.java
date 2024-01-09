@@ -81,16 +81,99 @@ public class AVL<T extends Comparable<T>> {
      * @param node
      * @return
      */
-    private Node balance(Node node) {}
+    private Node balance(Node node) {
+        int bf = node.bf;
+
+        // cmp can be -2, 2 -> we balance. -1,0,1 -> we do nothing
+        if (bf == -1 || bf == 0 || bf == 1) return node;
+
+        if (bf == -2) {
+            if (node.left.bf <= 0) { // left left case
+                return rightRotation(node);
+            } else { // left right case
+                return leftRight(node);
+            }
+        } else if (bf == 2) {
+            if (node.right.bf <= 0) { // right left
+                return rightLeft(node);
+            } else { // right right
+                return leftRotation(node);
+            }
+        }// right cases
+
+        // bf == -1 / 0 / -1
+        return node;
+    }
 
     /**
      * Update the node's height and balance factor
      * @param node
      */
     private void update(Node node) {
+        int rightHeight = (node.right == null) ? -1 : node.right.height;
+        int leftHeight = (node.left == null) ? -1 : node.left.height;
+
+        node.height = Math.max(rightHeight, leftHeight) + 1;
+        node.bf = rightHeight - leftHeight;
     }
 
-    // Left rotation, right rotation, leftleft, leftRight, rightRight, rightLeft
+    /**
+     * x                x
+     *  \              / \
+     *   x     to     x   x
+     *    \
+     *     x
+     */
+    private Node leftRotation(Node node) {
+        Node newParent = node.right;
+        node.right = node.right.left;
+        newParent.left = node;
+        update(node);
+        update(newParent);
+        return newParent;
+    }
+
+    /**
+     *     x               x
+     *    /               / \
+     *   x       to      x   x
+     *  /
+     * x
+     */
+    private Node rightRotation(Node node) {
+        Node newParent = node.left;
+        node.left = node.left.right;
+        newParent.right = node;
+        update(node);
+        update(newParent);
+        return newParent;
+    }
+
+    /**
+     *     x               x              x
+     *    /               /              / \
+     *   x       to      x      to      x   x
+     *    \             /
+     *     x           x
+     * Done before right rotation
+     */
+    private Node leftRight(Node node) {
+        node.left = leftRotation(node.left);
+        return rightRotation(node);
+    }
+
+    /**
+     *     x               x                x
+     *      \               \              / \
+     *       x       to      x     to     x   x
+     *      /                 \
+     *     x                   x
+     * Done before right rotation
+     */
+    private Node rightLeft(Node node) {
+        node.right = rightRotation(node.right);
+        return leftRotation(node);
+    }
 
     public class Node {
         public int bf;
