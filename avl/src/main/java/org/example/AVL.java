@@ -45,7 +45,11 @@ public class AVL<T extends Comparable<T>> {
      * @return
      */
     public boolean insert(T value) {
-        return insert(value, root);
+        // Since its a set, we can assume no duplicates
+        if (value == null) return false;
+        if (contains(value, root)) return false;
+        root = insert(value, root);
+        return true;
     }
 
     /**
@@ -54,26 +58,19 @@ public class AVL<T extends Comparable<T>> {
      * @return
      */
     private Node insert(T value, Node node) {
+        if (node == null) { // inserts here
+            return new Node(value);
+        }
 
-    }
+        int cmp = value.compareTo(node.value);
+        if (cmp < 0) { // value is less than node.value, hence insert left
+            node.left = insert(value, node.left);
+        } else { // value is greater than node.value, hence insert right
+            node.right = insert(value, node.right);
+        }
 
-    /**
-     * Public facing remove method
-     * @param value
-     * @return
-     */
-    public boolean remove(T value) {
-        return remove(value, root);
-    }
-
-    /**
-     * Recursively calls the private remove method on the current, left or right of node depending on compare value
-     * @param value
-     * @param node
-     * @return
-     */
-    public boolean remove(T value, Node node) {
-
+        update(node); // update bf and height values
+        return balance(node);
     }
 
     /**
