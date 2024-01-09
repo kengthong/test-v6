@@ -1,7 +1,5 @@
 package org.example;
 
-import java.util.Iterator;
-
 public class AVL<T extends Comparable<T>> {
 
     // Root node of AVL Tree
@@ -189,7 +187,7 @@ public class AVL<T extends Comparable<T>> {
         return leftRotation(node);
     }
 
-    public class Node {
+    public class Node { // max 8 + 16 + 8 + 8*2 = 48 bytes, 10 million objects is 480mb
         public int bf;
         public T value;
         public int height;
