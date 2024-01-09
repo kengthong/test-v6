@@ -1,5 +1,10 @@
 plugins {
     id("java")
+    id("application")
+}
+
+run {
+    standardInput = System.in
 }
 
 group = "org.example"
@@ -8,6 +13,7 @@ version = "1.0-SNAPSHOT"
 repositories {
     mavenCentral()
 }
+mainClassName = "org.example.Main"
 
 dependencies {
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
